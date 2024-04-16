@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Museo+Sans:wght@300;400;500;700&display=swap');
+
+@font-face {
+    font-family: 'MuseoSansCyrl';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('./MuseoSansCyrl300.woff') format('woff');
+}
+@font-face {
+    font-family: 'MuseoSansCyrl';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('./MuseoSansCyrl500.woff') format('woff');
+}
+@font-face {
+    font-family: 'MuseoSansCyrl';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('./MuseoSansCyrl700.woff') format('woff');
+}
+@font-face {
+    font-family: 'MuseoSansCyrl';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url('./MuseoSansCyrl900.woff') format('woff');
+}
