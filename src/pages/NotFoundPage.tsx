@@ -5,7 +5,7 @@ import { Heading } from '../shared/config/chakraTheme/ui'
 const Error404 = () => {
     const navigate = useNavigate()
     return(
-        <Stack gap="10px" align="center" my="auto" px="10px">
+        <Stack gap="10px" align="center" my="auto" px="10px" mt={'10rem'}>
             <Heading as="h1" fontWeight={600} size="xl">
                 Ошибка 404
             </Heading>

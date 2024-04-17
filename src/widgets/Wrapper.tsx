@@ -16,28 +16,31 @@ export interface Todo {
 
 export const Wrapper: React.FC = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
+    const [username, setUsername] = useState<string>('');
 
     useEffect(() => {
-        const savedTodos = JSON.parse(localStorage.getItem('todos') || '[]') as Todo[];
+        const savedUsername = localStorage.getItem('username') || '';
+        const savedTodos = JSON.parse(localStorage.getItem(`todos_${savedUsername}`) || '[]') as Todo[];
         setTodos(savedTodos);
+        setUsername(savedUsername);
     }, []);
 
     const addTodo = (todo: string) => {
         const newTodos: Todo[] = [...todos, { id: uuidv4(), task: todo, completed: false, isEditing: false }];
         setTodos(newTodos);
-        localStorage.setItem('todos', JSON.stringify(newTodos));
+        localStorage.setItem(`todos_${username}`, JSON.stringify(newTodos));
     };
 
     const toggleComplete = (id: string) => {
         const newTodos: Todo[] = todos.map(todo => (todo.id === id ? { ...todo, completed: !todo.completed } : todo));
         setTodos(newTodos);
-        localStorage.setItem('todos', JSON.stringify(newTodos));
+        localStorage.setItem(`todos_${username}`, JSON.stringify(newTodos));
     };
 
     const deleteTodo = (id: string) => {
         const newTodos: Todo[] = todos.filter(todo => todo.id !== id);
         setTodos(newTodos);
-        localStorage.setItem('todos', JSON.stringify(newTodos));
+        localStorage.setItem(`todos_${username}`, JSON.stringify(newTodos));
     };
 
     const editTodo = (id: string) => {
@@ -49,7 +52,7 @@ export const Wrapper: React.FC = () => {
         todo.id === id ? { ...todo, task, isEditing: !todo.isEditing } : todo
         );
         setTodos(newTodos);
-        localStorage.setItem('todos', JSON.stringify(newTodos));
+        localStorage.setItem(`todos_${username}`, JSON.stringify(newTodos));
     };
 
     return (

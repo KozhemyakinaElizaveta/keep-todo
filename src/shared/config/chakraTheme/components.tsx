@@ -2,7 +2,7 @@ import { ThemeComponents } from '@chakra-ui/react'
 import {
     // ButtonTheme,
     // CheckboxTheme,
-    // TextTheme,
+    TextTheme,
     // TooltipTheme,
     HeadingTheme,
     // AlertTheme,
@@ -12,7 +12,7 @@ export const components: ThemeComponents = {
     // Button: ButtonTheme,
     // Checkbox: CheckboxTheme,
     // Tooltip: TooltipTheme,
-    // Text: TextTheme,
+    Text: TextTheme,
     Heading: HeadingTheme,
     // Alert: AlertTheme,
 }
