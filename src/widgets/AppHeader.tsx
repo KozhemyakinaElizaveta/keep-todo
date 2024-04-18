@@ -2,7 +2,7 @@ import { Flex, Icon } from "@chakra-ui/react";
 import { Text } from "../shared/config/chakraTheme/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket} from "@fortawesome/free-solid-svg-icons/faRightToBracket";
-import { Link, Navigate, useMatch } from "react-router-dom";
+import { Link, useMatch } from "react-router-dom";
 import { CloseIcon } from "@chakra-ui/icons";
 
 export const activePaths = {

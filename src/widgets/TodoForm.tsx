@@ -1,5 +1,4 @@
 import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
-//import { AddIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react';
 
 interface TodoFormProps {

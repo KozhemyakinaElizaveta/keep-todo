@@ -10,11 +10,10 @@ type TProtectedRouteElement = {
 const ProtectedRouteElement: FunctionComponent<TProtectedRouteElement> = ({ element }) => {
     const user = localStorage.getItem("currentUser");
     const [userNotLoaded, setUserNotLoaded] = useState(true)
-    const [locate, setLocate] = useState('')
-    const location = useLocation();
+    // const [locate, setLocate] = useState('')
+    // const location = useLocation();
 
     useEffect(() => {
-        setLocate(location.pathname)
         setUserNotLoaded(false)
     }, [])
 
