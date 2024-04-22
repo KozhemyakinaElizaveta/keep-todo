@@ -14,12 +14,16 @@ export interface Todo {
     isEditing: boolean;
 }
 
+export const getCurrentUser = () => {
+    const currentUserString = localStorage.getItem("currentUser");
+    const currentUser = currentUserString ? JSON.parse(currentUserString) : null;
 
+    return currentUser;
+};
 
 export const Wrapper: React.FC = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [users, setUsers] = useState<any[]>([]); 
-    const [userNew, setNewUser] = useState<any[]>([]); 
 
     useEffect(() => {
         const usersString = localStorage.getItem("users");
@@ -27,13 +31,6 @@ export const Wrapper: React.FC = () => {
         setUsers(usersData);
         setTodos(getCurrentTodos())
     }, []);
-
-    const getCurrentUser = () => {
-        const currentUserString = localStorage.getItem("currentUser");
-        const currentUser = currentUserString ? JSON.parse(currentUserString) : null;
-
-        return currentUser;
-    };
 
     const getCurrentTodos = () => {
         const currentUser = getCurrentUser();
@@ -48,19 +45,11 @@ export const Wrapper: React.FC = () => {
         return currentTodos.flat();
     };
 
-    const addTodo = (todo: string) => {
-        const newTodo: Todo = { id: uuidv4(), task: todo, completed: false, isEditing: false };
-
-        const updatedTodos = [...todos, newTodo];
-        setTodos(updatedTodos);
-
+    const changeUsers = (updatedTodos: any) => {
         const user = getCurrentUser()
         user.todos = updatedTodos;
-        setNewUser(user);
-        console.log(user)
 
         const updatedUser = { ...user, todos: updatedTodos }; 
-        setNewUser(updatedUser);
 
         const updatedUsers = users.map(curuser => {
             if(curuser.username === user.username) {
@@ -73,26 +62,29 @@ export const Wrapper: React.FC = () => {
         localStorage.setItem("users", JSON.stringify(updatedUsers));
     };
 
+    const addTodo = (todo: string) => {
+        const newTodo: Todo = { id: uuidv4(), task: todo, completed: false, isEditing: false };
+
+        const updatedTodos = [...todos, newTodo];
+        setTodos(updatedTodos);
+
+        changeUsers(updatedTodos)
+    };
+
     const toggleComplete = (id: string) => {
         const updatedTodos = todos.map(todo =>
             todo.id === id ? { ...todo, completed: !todo.completed } : todo
         );
         setTodos(updatedTodos);
 
-        const currentUser = getCurrentUser();
-        currentUser.todos = updatedTodos;
-
-        setUsers(users => [...users]);
+        changeUsers(updatedTodos);
     };
 
     const deleteTodo = (id: string) => {
         const updatedTodos = todos.filter(todo => todo.id !== id);
         setTodos(updatedTodos);
 
-        const currentUser = getCurrentUser();
-        currentUser.todos = updatedTodos;
-
-        setUsers(users => [...users]);
+        changeUsers(updatedTodos);
     };
 
     const editTodo = (id: string) => {
@@ -101,10 +93,7 @@ export const Wrapper: React.FC = () => {
         );
         setTodos(updatedTodos);
 
-        const currentUser = getCurrentUser();
-        currentUser.todos = updatedTodos;
-
-        setUsers(users => [...users]);
+        changeUsers(updatedTodos);
     };
 
     const editTask = (task: string, id: string) => {
@@ -113,10 +102,7 @@ export const Wrapper: React.FC = () => {
         );
         setTodos(updatedTodos);
 
-        const currentUser = getCurrentUser();
-        currentUser.todos = updatedTodos;
-
-        setUsers(users => [...users]);
+        changeUsers(updatedTodos);
     };
 
     return (

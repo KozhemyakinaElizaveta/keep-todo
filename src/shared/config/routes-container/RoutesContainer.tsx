@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { HomePage, LoginPage, RegisterPage, NotFound404 } from '../../../pages'
+import { HomePage, LoginPage, RegisterPage, NotFound404, TablePage } from '../../../pages'
 import { FunctionComponent, useEffect, useState } from 'react'
 
 
@@ -33,6 +33,7 @@ export default function RoutesContainer() {
         <>
             <Routes location={background || location}>
                 <Route path="/" element={<ProtectedRouteElement element={<HomePage />} />}/>
+                <Route path="/table" element={<ProtectedRouteElement element={<TablePage />} />}/>
                 {/* <Route path="/" element={<HomePage />} /> */}
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
