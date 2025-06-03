@@ -1,42 +1,54 @@
-import { Badge, Checkbox, useDisclosure } from '@chakra-ui/react';
-import { selectAllLists, selectCurrentList } from 'entities/project/model/selectors';
-import { setCurrentTask, toggleTaskCompletion } from 'entities/project/model/slice';
-import { Task } from 'entities/project/model/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { Flex, Text } from 'shared/ui';
-import { CreateTaskModal } from 'widgets/index';
+import { Badge, Checkbox, useDisclosure } from '@chakra-ui/react'
+import {
+  selectAllLists,
+  selectCurrentList,
+} from 'entities/project/model/selectors'
+import {
+  setCurrentTask,
+  toggleTaskCompletion,
+} from 'entities/project/model/slice'
+import { Task } from 'entities/project/model/types'
+import { useDispatch, useSelector } from 'react-redux'
+import { Flex, Text } from 'shared/ui'
+import { CreateTaskModal } from 'widgets/index'
 
 export const Issues = () => {
-  const lists = useSelector(selectAllLists);
-  const currentList = useSelector(selectCurrentList);
-  const dispatch = useDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const lists = useSelector(selectAllLists)
+  const currentList = useSelector(selectCurrentList)
+  const dispatch = useDispatch()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const allTasks = lists.flatMap((list) => 
-    list.tasks?.map(task => ({ ...task, listId: list.id })) || []
-  );
+  const allTasks = lists.flatMap(
+    (list) => list.tasks?.map((task) => ({ ...task, listId: list.id })) || []
+  )
 
   const handleTaskClick = (task: Task) => {
-    dispatch(setCurrentTask(task));
-    onOpen();
-  };
+    dispatch(setCurrentTask(task))
+    onOpen()
+  }
 
   const handleCheckboxChange = (task: Task) => {
     if (task.listId) {
-      dispatch(toggleTaskCompletion({ 
-        listId: task.listId, 
-        taskId: task.id 
-      }));
+      dispatch(
+        toggleTaskCompletion({
+          listId: task.listId,
+          taskId: task.id,
+        })
+      )
     }
-  };
+  }
 
   return (
     <>
-      <CreateTaskModal 
-        type="edit" 
-        isOpen={isOpen} 
-        onClose={onClose} 
-        list={currentList ? { id: currentList.id, title: currentList.title } : undefined}
+      <CreateTaskModal
+        type="edit"
+        isOpen={isOpen}
+        onClose={onClose}
+        list={
+          currentList
+            ? { id: currentList.id, title: currentList.title }
+            : undefined
+        }
       />
       <Flex flexDirection="column" w="100%" h="100%" gap="20px" p={4}>
         <Text fontSize="20px" fontWeight={700}>
@@ -75,8 +87,8 @@ export const Issues = () => {
                     onChange={() => handleCheckboxChange(task)}
                   />
                 </Flex>
-                <Text 
-                  fontSize="16px" 
+                <Text
+                  fontSize="16px"
                   fontWeight={500}
                   textDecoration={task.completed ? 'line-through' : 'none'}
                   color={task.completed ? 'gray.500' : 'inherit'}
@@ -84,11 +96,14 @@ export const Issues = () => {
                   {task.title}
                 </Text>
                 {task.priority && (
-                  <Badge 
+                  <Badge
                     ml="auto"
                     colorScheme={
-                      task.priority === 'high' ? 'red' : 
-                      task.priority === 'medium' ? 'orange' : 'green'
+                      task.priority === 'high'
+                        ? 'red'
+                        : task.priority === 'medium'
+                          ? 'orange'
+                          : 'green'
                     }
                   >
                     {task.priority}
@@ -97,19 +112,12 @@ export const Issues = () => {
               </Flex>
             ))
           ) : (
-            <Flex 
-              justify="center" 
-              align="center" 
-              h="100%"
-              color="gray.500"
-            >
-              <Text fontSize="18px">
-                Нет задач во всех списках
-              </Text>
+            <Flex justify="center" align="center" h="100%" color="gray.500">
+              <Text fontSize="18px">Нет задач во всех списках</Text>
             </Flex>
           )}
         </Flex>
       </Flex>
     </>
-  );
-};
+  )
+}

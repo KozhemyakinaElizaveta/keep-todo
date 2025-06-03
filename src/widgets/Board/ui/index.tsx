@@ -30,12 +30,16 @@ import { Settings } from 'shared/iconpack/Settings'
 
 export const Board = () => {
   const dispatch = useDispatch()
-  const cancelRef = useRef<HTMLButtonElement>(null);
+  const cancelRef = useRef<HTMLButtonElement>(null)
   const currentList = useSelector(selectCurrentList)
-  const [tasks, setTasks] = useState<{all: Task[], active: Task[], completed: Task[]}>({
+  const [tasks, setTasks] = useState<{
+    all: Task[]
+    active: Task[]
+    completed: Task[]
+  }>({
     all: [],
     active: [],
-    completed: []
+    completed: [],
   })
   const [taskToDelete, setTaskToDelete] = useState<string | null>(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -43,22 +47,24 @@ export const Board = () => {
   useEffect(() => {
     if (currentList) {
       const allTasks = currentList.tasks || []
-      const activeTasks = allTasks.filter(task => !task.completed)
-      const completedTasks = allTasks.filter(task => task.completed)
-      
+      const activeTasks = allTasks.filter((task) => !task.completed)
+      const completedTasks = allTasks.filter((task) => task.completed)
+
       setTasks({
         all: allTasks,
         active: activeTasks,
-        completed: completedTasks
+        completed: completedTasks,
       })
     }
   }, [currentList])
 
   const handleToggleTask = (taskId: string) => {
-    dispatch(toggleTaskCompletion({
-      listId: currentList?.id || 0,
-      taskId
-    }))
+    dispatch(
+      toggleTaskCompletion({
+        listId: currentList?.id || 0,
+        taskId,
+      })
+    )
   }
 
   const handleDeleteClick = (taskId: string) => {
@@ -68,21 +74,23 @@ export const Board = () => {
 
   const confirmDelete = () => {
     if (taskToDelete && currentList) {
-      dispatch(deleteTask({
-        listId: currentList.id,
-        taskId: taskToDelete
-      }))
+      dispatch(
+        deleteTask({
+          listId: currentList.id,
+          taskId: taskToDelete,
+        })
+      )
     }
     setTaskToDelete(null)
     onClose()
   }
 
   const renderTask = (task: Task) => (
-    <Box 
+    <Box
       key={task.id}
-      p={4} 
-      borderWidth="1px" 
-      borderRadius="lg" 
+      p={4}
+      borderWidth="1px"
+      borderRadius="lg"
       borderColor={'mallow.300'}
       mb={2}
       bg="white"
@@ -95,7 +103,10 @@ export const Board = () => {
           _hover={{ borderColor: 'mallow.300' }}
         />
         <Stack flex={1}>
-          <Text fontSize="md" textDecoration={task.completed ? 'line-through' : 'none'}>
+          <Text
+            fontSize="md"
+            textDecoration={task.completed ? 'line-through' : 'none'}
+          >
             {task.title}
           </Text>
           {task.description && (
@@ -106,10 +117,13 @@ export const Board = () => {
         </Stack>
         <Flex align="center" ml={2}>
           {task.priority && (
-            <Badge 
+            <Badge
               colorScheme={
-                task.priority === 'high' ? 'red' : 
-                task.priority === 'medium' ? 'orange' : 'green'
+                task.priority === 'high'
+                  ? 'red'
+                  : task.priority === 'medium'
+                    ? 'orange'
+                    : 'green'
               }
               mr={2}
             >
@@ -120,7 +134,7 @@ export const Board = () => {
             aria-label="Delete task"
             icon={<Delete />}
             bg={'red.400'}
-            _hover={{bg: 'red.500'}}
+            _hover={{ bg: 'red.500' }}
             size="sm"
             onClick={(e) => {
               e.stopPropagation()
@@ -146,13 +160,12 @@ export const Board = () => {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Вы уверены, что хотите удалить эту задачу? Это действие нельзя отменить.
+              Вы уверены, что хотите удалить эту задачу? Это действие нельзя
+              отменить.
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button onClick={onClose}>
-                Отмена
-              </Button>
+              <Button onClick={onClose}>Отмена</Button>
               <Button colorScheme="red" onClick={confirmDelete} ml={3}>
                 Удалить
               </Button>
@@ -182,7 +195,9 @@ export const Board = () => {
 
       <Flex gap={4} flexDir={'column'} p={'20px'}>
         <Box>
-          <Text fontSize="xl" fontWeight="bold" mb={4}>Активные задачи</Text>
+          <Text fontSize="xl" fontWeight="bold" mb={4}>
+            Активные задачи
+          </Text>
           {tasks.active.length > 0 ? (
             tasks.active.map(renderTask)
           ) : (
@@ -191,7 +206,9 @@ export const Board = () => {
         </Box>
 
         <Box>
-          <Text fontSize="xl" fontWeight="bold" mb={4}>Завершенные задачи</Text>
+          <Text fontSize="xl" fontWeight="bold" mb={4}>
+            Завершенные задачи
+          </Text>
           {tasks.completed.length > 0 ? (
             tasks.completed.map(renderTask)
           ) : (

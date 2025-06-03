@@ -14,7 +14,7 @@ const MOCK_LISTS: TodoList[] = [
         completed: false,
         createdAt: '2024-05-01',
         priority: 'medium',
-        tags: ['покупки']
+        tags: ['покупки'],
       },
       {
         id: '2',
@@ -22,9 +22,9 @@ const MOCK_LISTS: TodoList[] = [
         description: 'Поздравить с днем рождения',
         completed: true,
         createdAt: '2024-05-10',
-        priority: 'high'
-      }
-    ]
+        priority: 'high',
+      },
+    ],
   },
   {
     id: 2,
@@ -38,16 +38,16 @@ const MOCK_LISTS: TodoList[] = [
         completed: false,
         createdAt: '2024-05-15',
         priority: 'high',
-        tags: ['работа', 'важно']
-      }
-    ]
-  }
+        tags: ['работа', 'важно'],
+      },
+    ],
+  },
 ]
 
 const initialState: TodoState = {
   currentList: MOCK_LISTS[0],
   lists: MOCK_LISTS,
-  currentTask: null
+  currentTask: null,
 }
 
 const todoSlice = createSlice({
@@ -57,83 +57,105 @@ const todoSlice = createSlice({
     setCurrentList: (state, action: PayloadAction<TodoList | null>) => {
       state.currentList = action.payload
     },
-    addList: (state, action: PayloadAction<{ title: string; icon?: number }>) => {
+    addList: (
+      state,
+      action: PayloadAction<{ title: string; icon?: number }>
+    ) => {
       const { title, icon } = action.payload
       const newList: TodoList = {
         id: Date.now(),
         title,
         icon,
-        tasks: []
+        tasks: [],
       }
       state.lists.push(newList)
     },
-    addTask: (state, action: PayloadAction<{ listId: number; task: Omit<Task, 'id' | 'completed' | 'createdAt'> }>) => {
+    addTask: (
+      state,
+      action: PayloadAction<{
+        listId: number
+        task: Omit<Task, 'id' | 'completed' | 'createdAt'>
+      }>
+    ) => {
       const { listId, task } = action.payload
-      const list = state.lists.find(l => l.id === listId)
-      
+      const list = state.lists.find((l) => l.id === listId)
+
       if (list) {
         const newTask: Task = {
           ...task,
           id: Date.now().toString(),
           completed: false,
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
         }
         list.tasks.push(newTask)
-        
+
         if (state.currentList?.id === listId) {
           state.currentList = { ...list }
         }
       }
     },
-    toggleTaskCompletion: (state, action: PayloadAction<{ listId: number; taskId: string }>) => {
+    toggleTaskCompletion: (
+      state,
+      action: PayloadAction<{ listId: number; taskId: string }>
+    ) => {
       const { listId, taskId } = action.payload
-      const list = state.lists.find(l => l.id === listId)
-      
+      const list = state.lists.find((l) => l.id === listId)
+
       if (list) {
-        const task = list.tasks.find(t => t.id === taskId)
+        const task = list.tasks.find((t) => t.id === taskId)
         if (task) {
           task.completed = !task.completed
-          
+
           if (state.currentList?.id === listId) {
             state.currentList = { ...list }
           }
-          
+
           if (state.currentTask?.id === taskId) {
             state.currentTask = { ...task }
           }
         }
       }
     },
-    updateTask: (state, action: PayloadAction<{ listId: number; taskId: string; updates: Partial<Task> }>) => {
+    updateTask: (
+      state,
+      action: PayloadAction<{
+        listId: number
+        taskId: string
+        updates: Partial<Task>
+      }>
+    ) => {
       const { listId, taskId, updates } = action.payload
-      const list = state.lists.find(l => l.id === listId)
-      
+      const list = state.lists.find((l) => l.id === listId)
+
       if (list) {
-        const task = list.tasks.find(t => t.id === taskId)
+        const task = list.tasks.find((t) => t.id === taskId)
         if (task) {
           Object.assign(task, updates)
-          
+
           if (state.currentList?.id === listId) {
             state.currentList = { ...list }
           }
-          
+
           if (state.currentTask?.id === taskId) {
             state.currentTask = { ...task }
           }
         }
       }
     },
-    deleteTask: (state, action: PayloadAction<{ listId: number; taskId: string }>) => {
+    deleteTask: (
+      state,
+      action: PayloadAction<{ listId: number; taskId: string }>
+    ) => {
       const { listId, taskId } = action.payload
-      const list = state.lists.find(l => l.id === listId)
-      
+      const list = state.lists.find((l) => l.id === listId)
+
       if (list) {
-        list.tasks = list.tasks.filter(t => t.id !== taskId)
-        
+        list.tasks = list.tasks.filter((t) => t.id !== taskId)
+
         if (state.currentList?.id === listId) {
           state.currentList = { ...list }
         }
-        
+
         if (state.currentTask?.id === taskId) {
           state.currentTask = null
         }
@@ -142,19 +164,22 @@ const todoSlice = createSlice({
     setCurrentTask: (state, action: PayloadAction<Task | null>) => {
       state.currentTask = action.payload
     },
-    updateListTitle: (state, action: PayloadAction<{ listId: number; newTitle: string }>) => {
+    updateListTitle: (
+      state,
+      action: PayloadAction<{ listId: number; newTitle: string }>
+    ) => {
       const { listId, newTitle } = action.payload
-      const list = state.lists.find(l => l.id === listId)
-      
+      const list = state.lists.find((l) => l.id === listId)
+
       if (list) {
         list.title = newTitle
-        
+
         if (state.currentList?.id === listId) {
           state.currentList = { ...list }
         }
       }
-    }
-  }
+    },
+  },
 })
 
 export const {
@@ -165,7 +190,7 @@ export const {
   updateTask,
   deleteTask,
   setCurrentTask,
-  updateListTitle
+  updateListTitle,
 } = todoSlice.actions
 
 export default todoSlice.reducer

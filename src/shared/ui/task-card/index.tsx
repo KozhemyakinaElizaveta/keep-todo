@@ -1,22 +1,22 @@
-import { Calendar, Check } from 'shared/iconpack'; 
-import { Avatar, Box, Flex, Tag, Text, Timer } from '..';
-import { useDrag } from 'react-dnd';
-import { IconButton } from '@chakra-ui/react';
+import { Calendar, Check } from 'shared/iconpack'
+import { Avatar, Box, Flex, Tag, Text, Timer } from '..'
+import { useDrag } from 'react-dnd'
+import { IconButton } from '@chakra-ui/react'
 
 interface TaskCardProps {
-  project: string;
-  branch?: string;
-  number: number;
-  description: string;
-  tag: string;
-  date: string;
-  last_name: string;
-  first_name: string;
-  id: string;
-  name: string;
-  openModal: () => void;
+  project: string
+  branch?: string
+  number: number
+  description: string
+  tag: string
+  date: string
+  last_name: string
+  first_name: string
+  id: string
+  name: string
+  openModal: () => void
   finished: boolean
-  onCompleteChange?: (id: string, completed: boolean) => void; 
+  onCompleteChange?: (id: string, completed: boolean) => void
 }
 
 export const TaskCard = ({
@@ -32,7 +32,7 @@ export const TaskCard = ({
   name,
   openModal,
   finished,
-  onCompleteChange, 
+  onCompleteChange,
 }: TaskCardProps) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'task',
@@ -40,13 +40,13 @@ export const TaskCard = ({
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  }));
+  }))
 
   const handleCompleteChange = () => {
     if (onCompleteChange) {
-      onCompleteChange(id, !finished);
+      onCompleteChange(id, !finished)
     }
-  };
+  }
 
   return (
     <Flex
@@ -65,24 +65,24 @@ export const TaskCard = ({
     >
       <Flex justifyContent={'space-between'} alignItems={'center'}>
         <Flex align={'center'} gap={'5px'} justify={'flex-start'}>
-        <Text color={'mallow.400'} fontWeight={400}>
-          {`${project} - ${number}`}
-        </Text>
-        <Box
-        cursor="pointer"
-        onClick={(e) => {
-          e.stopPropagation(); 
-          handleCompleteChange();
-        }}
-      >
-        <IconButton
-          aria-label="Mark as complete"
-          icon={<Check />}
-          color={finished ? 'green' : 'blue.400'} 
-          variant={'solid'} 
-          fontSize="16px"
-        />
-      </Box>
+          <Text color={'mallow.400'} fontWeight={400}>
+            {`${project} - ${number}`}
+          </Text>
+          <Box
+            cursor="pointer"
+            onClick={(e) => {
+              e.stopPropagation()
+              handleCompleteChange()
+            }}
+          >
+            <IconButton
+              aria-label="Mark as complete"
+              icon={<Check />}
+              color={finished ? 'green' : 'blue.400'}
+              variant={'solid'}
+              fontSize="16px"
+            />
+          </Box>
         </Flex>
         {branch && (
           <Text fontWeight={400} fontSize={'12px'} color={'mallow.400'}>
@@ -113,7 +113,7 @@ export const TaskCard = ({
               color={'blue.300'}
               _hover={{ color: 'blue.600' }}
               onClick={(event) => {
-                event.stopPropagation();
+                event.stopPropagation()
               }}
             >
               Указать
@@ -133,5 +133,5 @@ export const TaskCard = ({
         )}
       </Flex>
     </Flex>
-  );
-};
+  )
+}

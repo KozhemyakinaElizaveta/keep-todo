@@ -5,7 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
-  base: '/keep-todo/', 
+  base: '/keep-todo/',
   server: {
     port: 5173,
     open: 'http://localhost:5173/',

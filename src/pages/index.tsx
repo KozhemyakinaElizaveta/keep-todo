@@ -23,7 +23,9 @@ export default function Routing() {
       >
         <Flex ml="30px" align={'center'}>
           <LoginLogo />
-          <Text fontSize={'32px'} fontWeight={800}>Keep ToDo</Text>
+          <Text fontSize={'32px'} fontWeight={800}>
+            Keep ToDo
+          </Text>
         </Flex>
         <Flex>
           <MenuProjects />
@@ -37,9 +39,15 @@ export default function Routing() {
           <BoardMenu />
         </Flex>
         <Routes>
-          <Route path="/" element={<Navigate to={`${BASE_URL}/lists`} replace />} />
-          <Route path={`${BASE_URL}`} element={<Navigate to={`${BASE_URL}/lists`} replace />} />
-          
+          <Route
+            path="/"
+            element={<Navigate to={`${BASE_URL}/lists`} replace />}
+          />
+          <Route
+            path={`${BASE_URL}`}
+            element={<Navigate to={`${BASE_URL}/lists`} replace />}
+          />
+
           <Route
             path={`${BASE_URL}/lists`}
             element={

@@ -23,7 +23,10 @@ import { useState } from 'react'
 import { useMatch, useNavigate } from 'react-router-dom'
 import { Icon2 } from 'shared/utils/icons/icon2'
 import { addList, setCurrentList } from 'entities/project/model/slice'
-import { selectAllLists, selectCurrentList } from 'entities/project/model/selectors'
+import {
+  selectAllLists,
+  selectCurrentList,
+} from 'entities/project/model/selectors'
 
 export const MenuProjects = () => {
   const dispatch = useDispatch()
@@ -139,7 +142,12 @@ export const MenuProjects = () => {
             key={list.id}
             title={list.title}
             Icon={getIcon(list.icon || null)}
-            check={currentList?.id === list.id && !isBoards && !isIssues && !isProfile}
+            check={
+              currentList?.id === list.id &&
+              !isBoards &&
+              !isIssues &&
+              !isProfile
+            }
             onClick={() => {
               dispatch(setCurrentList(list))
               navigate(`/keep-todo/list/${list.id}`)

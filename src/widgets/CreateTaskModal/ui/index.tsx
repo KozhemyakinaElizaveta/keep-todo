@@ -1,5 +1,5 @@
-import { Flex, Button, Input } from 'shared/ui';
-import { Plus } from 'shared/iconpack';
+import { Flex, Button, Input } from 'shared/ui'
+import { Plus } from 'shared/iconpack'
 import {
   chakra,
   FormControl,
@@ -14,46 +14,48 @@ import {
   ModalHeader,
   ModalOverlay,
   UseDisclosureReturn,
-} from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useMatch, useNavigate } from 'react-router-dom';
-import { selectAllLists, selectCurrentList, selectCurrentTask } from 'entities/project/model/selectors';
-import { addTask, updateTask } from 'entities/project/model/slice';
+} from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useMatch, useNavigate } from 'react-router-dom'
+import {
+  selectAllLists,
+  selectCurrentList,
+  selectCurrentTask,
+} from 'entities/project/model/selectors'
+import { addTask, updateTask } from 'entities/project/model/slice'
 
 type FormValues = {
-  title: string;
-  description: string;
-  priority: 'medium' | 'low' | 'high'; 
-  listId: number | null; 
-};
+  title: string
+  description: string
+  priority: 'medium' | 'low' | 'high'
+  listId: number | null
+}
 
-export const CreateTaskModal = (
-  { 
-    type,
-    onClose,
-    isOpen,
-    list 
-  }: 
-  { 
-    type: 'create' | 'edit',
-    isOpen: UseDisclosureReturn['isOpen']
-    onClose: UseDisclosureReturn['onClose']
-    list?: { id: number, title: string } 
-  }) => {
-  const dispatch = useDispatch();
+export const CreateTaskModal = ({
+  type,
+  onClose,
+  isOpen,
+  list,
+}: {
+  type: 'create' | 'edit'
+  isOpen: UseDisclosureReturn['isOpen']
+  onClose: UseDisclosureReturn['onClose']
+  list?: { id: number; title: string }
+}) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const currentList = useSelector(selectCurrentList);
-  const allLists = useSelector(selectAllLists);
-  const currentTask = useSelector(selectCurrentTask); 
+  const currentList = useSelector(selectCurrentList)
+  const allLists = useSelector(selectAllLists)
+  const currentTask = useSelector(selectCurrentTask)
   const isIssues = useMatch('/issues')
 
-const [formValues, setFormValues] = useState<FormValues>({
-  title: '',
-  description: '',
-  priority: 'medium',
-  listId: currentList?.id || null,
-});
+  const [formValues, setFormValues] = useState<FormValues>({
+    title: '',
+    description: '',
+    priority: 'medium',
+    listId: currentList?.id || null,
+  })
 
   useEffect(() => {
     if (type === 'edit' && currentTask) {
@@ -62,32 +64,33 @@ const [formValues, setFormValues] = useState<FormValues>({
         description: currentTask.description || '',
         priority: currentTask.priority || 'medium',
         listId: currentList?.id || null,
-      });
+      })
     }
-  }, [type, currentTask, currentList]);
+  }, [type, currentTask, currentList])
 
   const handleInputChange =
-    (field: string) => (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const value = event.target.value;
-      setFormValues((prev) => ({ ...prev, [field]: value }));
-    };
+    (field: string) =>
+    (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const value = event.target.value
+      setFormValues((prev) => ({ ...prev, [field]: value }))
+    }
 
-  const handlePriorityChange = (priority: "low" | "medium" | "high") => {
-    setFormValues((prev) => ({ ...prev, priority }));
-  };
+  const handlePriorityChange = (priority: 'low' | 'medium' | 'high') => {
+    setFormValues((prev) => ({ ...prev, priority }))
+  }
 
   const handleListChange = (listId: number) => {
-    setFormValues((prev) => ({ ...prev, listId }));
-  };
+    setFormValues((prev) => ({ ...prev, listId }))
+  }
 
   const handleSubmit = () => {
     if (!formValues.title.trim()) {
-      alert('Введите название задачи');
-      return;
+      alert('Введите название задачи')
+      return
     }
     if (!formValues.listId) {
-      console.error('Список не выбран');
-      return;
+      console.error('Список не выбран')
+      return
     }
 
     if (type === 'create') {
@@ -100,7 +103,7 @@ const [formValues, setFormValues] = useState<FormValues>({
             priority: formValues.priority,
           },
         })
-      );
+      )
     } else if (type === 'edit' && currentTask) {
       dispatch(
         updateTask({
@@ -112,7 +115,7 @@ const [formValues, setFormValues] = useState<FormValues>({
             priority: formValues.priority,
           },
         })
-      );
+      )
     }
 
     setFormValues({
@@ -120,16 +123,18 @@ const [formValues, setFormValues] = useState<FormValues>({
       description: '',
       priority: 'medium',
       listId: currentList?.id || allLists[0]?.id || 1,
-    });
-    onClose();
-  };
+    })
+    onClose()
+  }
 
   return (
     <>
       <Modal isCentered isOpen={isOpen} onClose={onClose} size={'xl'}>
         <ModalOverlay />
         <ModalContent w={'800px'}>
-          <ModalHeader>{type === 'create' ? 'Создание задачи' : 'Редактирование задачи'}</ModalHeader>
+          <ModalHeader>
+            {type === 'create' ? 'Создание задачи' : 'Редактирование задачи'}
+          </ModalHeader>
           <chakra.form w={'100%'}>
             <ModalBody>
               <Flex flexDir={'column'} gap={'15px'}>
@@ -170,15 +175,23 @@ const [formValues, setFormValues] = useState<FormValues>({
                       }}
                     >
                       {formValues.priority
-                        ? formValues.priority === 'low' ? 'Низкий' 
-                          : formValues.priority === 'medium' ? 'Средний' 
-                          : 'Высокий'
+                        ? formValues.priority === 'low'
+                          ? 'Низкий'
+                          : formValues.priority === 'medium'
+                            ? 'Средний'
+                            : 'Высокий'
                         : 'Выберите приоритет'}
                     </MenuButton>
                     <MenuList>
-                      <MenuItem onClick={() => handlePriorityChange('low')}>Низкий</MenuItem>
-                      <MenuItem onClick={() => handlePriorityChange('medium')}>Средний</MenuItem>
-                      <MenuItem onClick={() => handlePriorityChange('high')}>Высокий</MenuItem>
+                      <MenuItem onClick={() => handlePriorityChange('low')}>
+                        Низкий
+                      </MenuItem>
+                      <MenuItem onClick={() => handlePriorityChange('medium')}>
+                        Средний
+                      </MenuItem>
+                      <MenuItem onClick={() => handlePriorityChange('high')}>
+                        Высокий
+                      </MenuItem>
                     </MenuList>
                   </Menu>
                 </FormControl>
@@ -200,12 +213,13 @@ const [formValues, setFormValues] = useState<FormValues>({
                         color: 'blue.600',
                       }}
                     >
-                      {allLists.find((l) => l.id === formValues.listId)?.title || 'Выберите список'}
+                      {allLists.find((l) => l.id === formValues.listId)
+                        ?.title || 'Выберите список'}
                     </MenuButton>
                     <MenuList>
                       {allLists.map((list) => (
-                        <MenuItem 
-                          key={list.id} 
+                        <MenuItem
+                          key={list.id}
                           onClick={() => handleListChange(list.id)}
                         >
                           {list.title}
@@ -217,8 +231,12 @@ const [formValues, setFormValues] = useState<FormValues>({
               </Flex>
             </ModalBody>
             <ModalFooter>
-              <Flex align={'center'} justifyContent={'space-between'} w={'100%'}>
-                {type === 'edit' && isIssues && list &&
+              <Flex
+                align={'center'}
+                justifyContent={'space-between'}
+                w={'100%'}
+              >
+                {type === 'edit' && isIssues && list && (
                   <Button
                     isDisabled={!formValues.title.trim()}
                     type="button"
@@ -229,8 +247,13 @@ const [formValues, setFormValues] = useState<FormValues>({
                   >
                     Перейти к списку
                   </Button>
-                }
-                <Flex align={'center'} gap={'20px'} w={'100%'} justifyContent={'flex-end'}>
+                )}
+                <Flex
+                  align={'center'}
+                  gap={'20px'}
+                  w={'100%'}
+                  justifyContent={'flex-end'}
+                >
                   <Button onClick={onClose} variant="transparent">
                     Отмена
                   </Button>
@@ -248,5 +271,5 @@ const [formValues, setFormValues] = useState<FormValues>({
         </ModalContent>
       </Modal>
     </>
-  );
-};
+  )
+}
